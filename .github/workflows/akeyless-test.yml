@@ -1,0 +1,22 @@
+name: akeyless-test.yml
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v3.0.0
+#        env:
+#          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        with:
+          url: https://hvp.akeyless.io
+#          tlsSkipVerify: true
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+            secret/data/DevOps/Automation/Teamcity/Ansible/remote_linux_user DevOps/Automation/Teamcity/Ansible/remote_linux_user | remote_linux_user_secret ;
+      - name: Secret from Akeyless
+        run: echo "remote_linux_user='${{ env.remote_linux_user_secret }}'"
