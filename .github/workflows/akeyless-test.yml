@@ -19,4 +19,8 @@ jobs:
           secrets: |
             secret/data/DevOps/Automation/Teamcity/Ansible/remote_linux_user DevOps/Automation/Teamcity/Ansible/remote_linux_user | remote_linux_user_secret ;
       - name: Secret from Akeyless
-        run: echo "remote_linux_user='${{ env.remote_linux_user_secret }}'"
+        run: echo "remote_linux_user='${{ env.remote_linux_user_secret }}'" >> "log.out"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: "log.out"
